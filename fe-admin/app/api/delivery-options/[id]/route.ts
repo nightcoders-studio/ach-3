@@ -26,6 +26,19 @@ export async function PATCH(
 
   const supabase = createAdminClient();
 
+  if (body.type === "self_pickup" || body.cost !== undefined) {
+    const { data: current } = await supabase
+      .from("delivery_options")
+      .select("type")
+      .eq("delivery_option_id", id)
+      .single();
+
+    const finalType = body.type || current?.type;
+    if (finalType === "self_pickup") {
+      body.cost = 0;
+    }
+  }
+
   const { data, error } = await supabase
     .from("delivery_options")
     .update(body)

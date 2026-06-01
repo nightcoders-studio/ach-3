@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     .insert({
       name,
       type,
-      cost: cost ?? 0,
+      cost: type === "self_pickup" ? 0 : (cost ?? 0),
       is_available: true,
       created_by: payload.user_id,
     })

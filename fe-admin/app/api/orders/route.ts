@@ -47,6 +47,45 @@ export async function POST(request: NextRequest) {
 
   const supabase = createAdminClient();
 
+  // Fetch delivery option to check type and cost
+  const { data: deliveryOption, error: deliveryError } = await supabase
+    .from("delivery_options")
+    .select("*")
+    .eq("delivery_option_id", delivery_option_id)
+    .single();
+
+  if (deliveryError || !deliveryOption) {
+    return NextResponse.json(
+      { error: "Metode pengiriman tidak ditemukan atau tidak valid" },
+      { status: 404 },
+    );
+  }
+
+  if (!deliveryOption.is_available) {
+    return NextResponse.json(
+      { error: "Metode pengiriman sedang tidak tersedia" },
+      { status: 400 },
+    );
+  }
+
+  // Validate GPS coordinates if type is courier
+  if (deliveryOption.type === "courier") {
+    if (
+      delivery_lat === undefined ||
+      delivery_lat === null ||
+      delivery_lng === undefined ||
+      delivery_lng === null
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Koordinat GPS (latitude dan longitude) wajib diisi untuk pengiriman kurir",
+        },
+        { status: 400 },
+      );
+    }
+  }
+
   const { data: cart } = await supabase
     .from("carts")
     .select("cart_id, cart_items(*, products(price_per_unit))")
@@ -56,6 +95,7 @@ export async function POST(request: NextRequest) {
   if (!cart || !cart.cart_items || cart.cart_items.length === 0) {
     return NextResponse.json({ error: "Cart kosong" }, { status: 400 });
   }
+
   type CartItemWithProduct = {
     product_id: string;
     quantity: number;
@@ -64,20 +104,25 @@ export async function POST(request: NextRequest) {
     };
   };
 
-  const total_price = (cart.cart_items as CartItemWithProduct[]).reduce(
+  const delivery_cost =
+    deliveryOption.type === "self_pickup" ? 0 : (deliveryOption.cost ?? 0);
+
+  const items_total = (cart.cart_items as CartItemWithProduct[]).reduce(
     (sum: number, item: CartItemWithProduct) => {
       return sum + item.quantity * item.products.price_per_unit;
     },
     0,
   );
 
+  const total_price = items_total + delivery_cost;
+
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert({
       user_id: payload.user_id,
       delivery_option_id,
-      delivery_lat,
-      delivery_lng,
+      delivery_lat: deliveryOption.type === "self_pickup" ? null : delivery_lat,
+      delivery_lng: deliveryOption.type === "self_pickup" ? null : delivery_lng,
       total_price,
       status: "pending",
     })

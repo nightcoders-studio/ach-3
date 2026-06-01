@@ -16,7 +16,7 @@ import {
   HelpCircle,
   Plus,
   Menu,
-  X
+  X,
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -55,7 +55,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   if (pathname === "/login") {
-    return <main className="min-h-screen bg-surface flex items-center justify-center p-6">{children}</main>;
+    return (
+      <main className="min-h-screen bg-surface flex items-center justify-center p-6">
+        {children}
+      </main>
+    );
   }
 
   const navigationItems = [
@@ -75,7 +79,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const getPageTitle = () => {
     if (pathname === "/") return "Dashboard";
-    const matched = navigationItems.find(item => item.href !== "/" && pathname.startsWith(item.href));
+    const matched = navigationItems.find(
+      (item) => item.href !== "/" && pathname.startsWith(item.href),
+    );
     if (matched) return matched.name;
     if (pathname.startsWith("/settings")) return "Settings";
     return "Dashboard";
@@ -87,7 +93,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <aside className="hidden md:flex flex-col w-[260px] bg-primary text-white shrink-0 shadow-lg border-r border-outline/10">
         {/* Sidebar Header */}
         <div className="p-6 border-b border-white/10">
-          <h1 className="text-2xl font-bold tracking-tight text-white">Mart2You</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white">
+            MarketDash
+          </h1>
           <p className="text-xs text-white/60 mt-0.5">Admin Dashboard</p>
         </div>
 
@@ -106,7 +114,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     : "text-white/80 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon size={18} className={Active ? "text-on-primary-container" : "text-white/75"} />
+                <Icon
+                  size={18}
+                  className={
+                    Active ? "text-on-primary-container" : "text-white/75"
+                  }
+                />
                 {item.name}
               </Link>
             );
@@ -131,7 +144,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   : "text-white/80 hover:text-white hover:bg-white/5"
               }`}
             >
-              <Settings size={18} className={isActive("/settings") ? "text-on-primary-container" : "text-white/75"} />
+              <Settings
+                size={18}
+                className={
+                  isActive("/settings")
+                    ? "text-on-primary-container"
+                    : "text-white/75"
+                }
+              />
               Settings
             </Link>
             <button
@@ -151,7 +171,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <aside className="w-[260px] bg-primary text-white flex flex-col h-full shadow-2xl animate-in slide-in-from-left duration-200">
             <div className="p-6 border-b border-white/10 flex justify-between items-center">
               <div>
-                <h1 className="text-2xl font-bold tracking-tight text-white">Mart2You</h1>
+                <h1 className="text-2xl font-bold tracking-tight text-white">
+                  MarketDash
+                </h1>
                 <p className="text-xs text-white/60 mt-0.5">Admin Dashboard</p>
               </div>
               <button
@@ -177,7 +199,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         : "text-white/80 hover:text-white hover:bg-white/5"
                     }`}
                   >
-                    <Icon size={18} className={Active ? "text-on-primary-container" : "text-white/75"} />
+                    <Icon
+                      size={18}
+                      className={
+                        Active ? "text-on-primary-container" : "text-white/75"
+                      }
+                    />
                     {item.name}
                   </Link>
                 );
@@ -200,7 +227,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                       : "text-white/80 hover:text-white hover:bg-white/5"
                   }`}
                 >
-                  <Settings size={18} className={isActive("/settings") ? "text-on-primary-container" : "text-white/75"} />
+                  <Settings
+                    size={18}
+                    className={
+                      isActive("/settings")
+                        ? "text-on-primary-container"
+                        : "text-white/75"
+                    }
+                  />
                   Settings
                 </Link>
                 <button
@@ -240,7 +274,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
           {/* Center/Search bar */}
           <div className="hidden sm:flex items-center max-w-md w-64 md:w-80 relative ml-4">
-            <Search size={16} className="absolute left-3.5 text-on-surface-variant/60" />
+            <Search
+              size={16}
+              className="absolute left-3.5 text-on-surface-variant/60"
+            />
             <input
               type="text"
               placeholder="Search data..."
@@ -272,12 +309,19 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Admin Profile Details */}
             <div className="flex items-center gap-3">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-semibold text-on-surface leading-tight">Admin User</p>
-                <p className="text-[11px] font-medium text-on-surface-variant/80">Administrator</p>
+                <p className="text-sm font-semibold text-on-surface leading-tight">
+                  Admin User
+                </p>
+                <p className="text-[11px] font-medium text-on-surface-variant/80">
+                  Administrator
+                </p>
               </div>
               <div className="relative w-9 h-9 rounded-full overflow-hidden border border-outline-variant bg-surface-container-high flex items-center justify-center">
                 {/* Custom SVG Avatar resembling the photo in screenshot */}
-                <svg viewBox="0 0 32 32" className="w-full h-full text-primary-container fill-current">
+                <svg
+                  viewBox="0 0 32 32"
+                  className="w-full h-full text-primary-container fill-current"
+                >
                   <path d="M16 4a6 6 0 100 12 6 6 0 000-12zm-8 18c0-4.4 3.6-8 8-8s8 3.6 8 8v2H8v-2z" />
                 </svg>
               </div>
