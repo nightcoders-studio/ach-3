@@ -35,8 +35,7 @@ export async function POST(request: NextRequest) {
   if (!payload) return unauthorizedResponse();
   if (payload.role !== "customer") return forbiddenResponse();
 
-  const { delivery_option_id, delivery_lat, delivery_lng } =
-    await request.json();
+  const { delivery_option_id, delivery_address } = await request.json();
 
   if (!delivery_option_id) {
     return NextResponse.json(
@@ -70,12 +69,7 @@ export async function POST(request: NextRequest) {
 
   // Validate GPS coordinates if type is courier
   if (deliveryOption.type === "courier") {
-    if (
-      delivery_lat === undefined ||
-      delivery_lat === null ||
-      delivery_lng === undefined ||
-      delivery_lng === null
-    ) {
+    if (delivery_address == null || undefined) {
       return NextResponse.json(
         {
           error:
@@ -121,8 +115,8 @@ export async function POST(request: NextRequest) {
     .insert({
       user_id: payload.user_id,
       delivery_option_id,
-      delivery_lat: deliveryOption.type === "self_pickup" ? null : delivery_lat,
-      delivery_lng: deliveryOption.type === "self_pickup" ? null : delivery_lng,
+      delivery_address:
+        deliveryOption.type === "self_pickup" ? null : delivery_address,
       total_price,
       status: "pending",
     })

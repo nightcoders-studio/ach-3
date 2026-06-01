@@ -6,8 +6,11 @@ import {
 } from "@/utils/auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
+
+  const { searchParams } = new URL(request.url);
+  const search = searchParams.get("search") || searchParams.get("q") || "";
 
   const { data: products, error } = await supabase
     .from("products")
@@ -29,10 +32,23 @@ export async function GET() {
     }
   }
 
-  const result = products.map((p) => ({
+  let result = products.map((p) => ({
     ...p,
     current_stock: latestStock[p.product_id] ?? 0,
   }));
+
+  // Filter products by search query if provided
+  if (search) {
+    const searchLower = search.toLowerCase();
+    result = result.filter(
+      (p: any) =>
+        p.name.toLowerCase().includes(searchLower) ||
+        (p.description && p.description.toLowerCase().includes(searchLower)) ||
+        (p.categories &&
+          p.categories.name &&
+          p.categories.name.toLowerCase().includes(searchLower)),
+    );
+  }
 
   return NextResponse.json({ products: result });
 }

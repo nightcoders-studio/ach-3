@@ -12,8 +12,6 @@ import {
   Settings,
   LogOut,
   Search,
-  Bell,
-  HelpCircle,
   Plus,
   Menu,
   X,
@@ -290,17 +288,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Search Toggle for Mobile */}
             <button className="p-2 rounded-full hover:bg-surface-container-low text-on-surface sm:hidden">
               <Search size={18} />
-            </button>
-
-            {/* Notification button with indicator */}
-            <button className="relative p-2 rounded-full hover:bg-surface-container-low text-on-surface transition-colors duration-150">
-              <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-white" />
-            </button>
-
-            {/* Help circle */}
-            <button className="p-2 rounded-full hover:bg-surface-container-low text-on-surface transition-colors duration-150">
-              <HelpCircle size={18} />
             </button>
 
             {/* Divider */}
