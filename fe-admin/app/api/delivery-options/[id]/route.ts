@@ -8,8 +8,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const payload = verifyToken(request);
   if (!payload) return unauthorizedResponse();
   if (payload.role !== "admin") return forbiddenResponse();
@@ -28,7 +29,7 @@ export async function PATCH(
   const { data, error } = await supabase
     .from("delivery_options")
     .update(body)
-    .eq("delivery_option_id", params.id)
+    .eq("delivery_option_id", id)
     .select()
     .single();
 
@@ -39,8 +40,9 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const payload = verifyToken(request);
   if (!payload) return unauthorizedResponse();
   if (payload.role !== "admin") return forbiddenResponse();
@@ -50,7 +52,7 @@ export async function DELETE(
   const { error } = await supabase
     .from("delivery_options")
     .delete()
-    .eq("delivery_option_id", params.id);
+    .eq("delivery_option_id", id);
 
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -8,8 +8,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const payload = verifyToken(request);
   if (!payload) return unauthorizedResponse();
   if (payload.role !== "admin") return forbiddenResponse();
@@ -28,7 +29,7 @@ export async function POST(
   const { data, error } = await supabase
     .from("stock_logs")
     .insert({
-      product_id: params.id,
+      product_id: id,
       quantity,
       note,
       updated_by: payload.user_id,

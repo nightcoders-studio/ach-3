@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const payload = verifyToken(request);
   if (!payload) return unauthorizedResponse();
 
@@ -23,7 +24,7 @@ export async function PATCH(
   const { data, error } = await supabase
     .from("cart_items")
     .update({ quantity })
-    .eq("cart_item_id", params.id)
+    .eq("cart_item_id", id)
     .select()
     .single();
 
@@ -34,8 +35,9 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const payload = verifyToken(request);
   if (!payload) return unauthorizedResponse();
 
@@ -44,7 +46,7 @@ export async function DELETE(
   const { error } = await supabase
     .from("cart_items")
     .delete()
-    .eq("cart_item_id", params.id);
+    .eq("cart_item_id", id);
 
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });

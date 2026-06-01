@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ShoppingCart,
   Package,
@@ -25,7 +25,38 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token && pathname !== "/login") {
+      router.push("/login");
+    } else if (token && pathname === "/login") {
+      router.push("/");
+    } else {
+      setLoading(false);
+    }
+  }, [pathname, router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    router.push("/login");
+  };
+
+  if (loading && pathname !== "/login") {
+    return (
+      <div className="min-h-screen bg-surface flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (pathname === "/login") {
+    return <main className="min-h-screen bg-surface flex items-center justify-center p-6">{children}</main>;
+  }
 
   const navigationItems = [
     { name: "Orders", href: "/", icon: ShoppingCart },
@@ -104,7 +135,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               Settings
             </Link>
             <button
-              onClick={() => alert("Logging out...")}
+              onClick={handleLogout}
               className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded-md text-left transition-all duration-150"
             >
               <LogOut size={18} className="text-white/75" />
@@ -175,7 +206,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-                    alert("Logging out...");
+                    handleLogout();
                   }}
                   className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded-md text-left transition-all duration-150"
                 >
