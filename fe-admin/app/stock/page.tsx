@@ -94,9 +94,10 @@ export default function StockPage() {
       if (catRes.ok) {
         setCategories(catData.categories || []);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memuat data dari server");
+      const message = err instanceof Error ? err.message : "Gagal memuat data dari server";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -134,9 +135,10 @@ export default function StockPage() {
       }
 
       setProdImageUrl(data.url);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal mengunggah gambar");
+      const message = err instanceof Error ? err.message : "Gagal mengunggah gambar";
+      setError(message);
     } finally {
       setUploadingImage(false);
     }
@@ -217,9 +219,10 @@ export default function StockPage() {
 
       setIsProductModalOpen(false);
       fetchInitialData();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal menyimpan produk");
+      const message = err instanceof Error ? err.message : "Gagal menyimpan produk";
+      setError(message);
     } finally {
       setSubmittingProduct(false);
     }
@@ -255,9 +258,10 @@ export default function StockPage() {
 
       setIsStockModalOpen(false);
       fetchInitialData();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memperbarui stok");
+      const message = err instanceof Error ? err.message : "Gagal memperbarui stok";
+      setError(message);
     } finally {
       setSubmittingStock(false);
     }
@@ -285,9 +289,10 @@ export default function StockPage() {
       }
 
       fetchInitialData();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal menghapus produk");
+      const message = err instanceof Error ? err.message : "Gagal menghapus produk";
+      setError(message);
     }
   };
 

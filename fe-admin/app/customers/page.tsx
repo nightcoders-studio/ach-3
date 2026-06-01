@@ -83,9 +83,10 @@ export default function CustomersPage() {
       } else {
         throw new Error(data.error || "Gagal memuat daftar pelanggan");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memuat data pelanggan");
+      const message = err instanceof Error ? err.message : "Gagal memuat data pelanggan";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -108,9 +109,10 @@ export default function CustomersPage() {
       } else {
         throw new Error(data.error || "Gagal memuat detail pelanggan");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setDetailError(err.message || "Gagal memuat detail data");
+      const message = err instanceof Error ? err.message : "Gagal memuat detail data";
+      setDetailError(message);
     } finally {
       setDetailLoading(false);
     }

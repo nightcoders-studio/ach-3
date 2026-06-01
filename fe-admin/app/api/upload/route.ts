@@ -78,8 +78,9 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ url: cloudinaryData.secure_url });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Upload API error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Terjadi kesalahan server internal";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

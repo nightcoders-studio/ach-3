@@ -47,9 +47,10 @@ export default function PaymentMethodsPage() {
       } else {
         throw new Error(data.error || "Gagal memuat opsi pembayaran");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memuat data opsi pembayaran");
+      const message = err instanceof Error ? err.message : "Gagal memuat data opsi pembayaran";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -95,9 +96,10 @@ export default function PaymentMethodsPage() {
       }
 
       fetchOptions();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memperbarui status pembayaran");
+      const message = err instanceof Error ? err.message : "Gagal memperbarui status pembayaran";
+      setError(message);
     }
   };
 
@@ -135,9 +137,10 @@ export default function PaymentMethodsPage() {
 
       setIsModalOpen(false);
       fetchOptions();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal menyimpan opsi pembayaran");
+      const message = err instanceof Error ? err.message : "Gagal menyimpan opsi pembayaran";
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -165,9 +168,10 @@ export default function PaymentMethodsPage() {
       }
 
       fetchOptions();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal menghapus opsi pembayaran");
+      const message = err instanceof Error ? err.message : "Gagal menghapus opsi pembayaran";
+      setError(message);
     }
   };
 

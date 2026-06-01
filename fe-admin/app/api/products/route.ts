@@ -32,7 +32,24 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  let result = products.map((p) => ({
+  interface ProductWithCategory {
+    product_id: string;
+    category_id: string | null;
+    name: string;
+    description: string | null;
+    unit: string;
+    min_order_qty: number;
+    price_per_unit: number;
+    created_at: string;
+    updated_by: string;
+    categories: {
+      name: string;
+    } | null;
+  }
+
+  const dbProducts = (products as unknown as ProductWithCategory[] || []);
+
+  let result = dbProducts.map((p) => ({
     ...p,
     current_stock: latestStock[p.product_id] ?? 0,
   }));
@@ -41,7 +58,7 @@ export async function GET(request: NextRequest) {
   if (search) {
     const searchLower = search.toLowerCase();
     result = result.filter(
-      (p: any) =>
+      (p) =>
         p.name.toLowerCase().includes(searchLower) ||
         (p.description && p.description.toLowerCase().includes(searchLower)) ||
         (p.categories &&

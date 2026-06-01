@@ -22,14 +22,22 @@ export async function GET(request: NextRequest) {
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });
 
+  interface UserWithOrders {
+    user_id: string;
+    name: string;
+    phone: string;
+    created_at: string;
+    orders: { order_id: string }[];
+  }
+
   // Filter out customers with 0 transactions
-  const activeCustomers = (data || [])
-    .filter((user: any) => user.orders && user.orders.length > 0)
+  const activeCustomers = (data as unknown as UserWithOrders[] || [])
+    .filter((user) => user.orders && user.orders.length > 0)
     .map(({ orders, ...user }) => user);
 
   // Sort by created_at descending
   activeCustomers.sort(
-    (a: any, b: any) =>
+    (a, b) =>
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
   );
 

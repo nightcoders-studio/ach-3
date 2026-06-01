@@ -52,9 +52,10 @@ export default function DeliveryMethodsPage() {
       } else {
         throw new Error(data.error || "Gagal memuat opsi pengiriman");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memuat data opsi pengiriman");
+      const message = err instanceof Error ? err.message : "Gagal memuat data opsi pengiriman";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -104,9 +105,10 @@ export default function DeliveryMethodsPage() {
       }
 
       fetchOptions();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memperbarui status kurir");
+      const message = err instanceof Error ? err.message : "Gagal memperbarui status kurir";
+      setError(message);
     }
   };
 
@@ -146,9 +148,10 @@ export default function DeliveryMethodsPage() {
 
       setIsModalOpen(false);
       fetchOptions();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal menyimpan opsi pengiriman");
+      const message = err instanceof Error ? err.message : "Gagal menyimpan opsi pengiriman";
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -176,9 +179,10 @@ export default function DeliveryMethodsPage() {
       }
 
       fetchOptions();
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal menghapus opsi pengiriman");
+      const message = err instanceof Error ? err.message : "Gagal menghapus opsi pengiriman";
+      setError(message);
     }
   };
 

@@ -111,9 +111,10 @@ export default function Dashboard() {
       setOrders(ordersData.orders || []);
       setCustomers(customersData.customers || []);
       setProducts(productsData.products || []);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.message || "Gagal memuat data dashboard");
+      const message = err instanceof Error ? err.message : "Gagal memuat data dashboard";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -134,9 +135,10 @@ export default function Dashboard() {
       } else {
         throw new Error(data.error || "Gagal memuat detail pesanan");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setDetailError(err.message || "Gagal memuat detail");
+      const message = err instanceof Error ? err.message : "Gagal memuat detail";
+      setDetailError(message);
     } finally {
       setDetailLoading(false);
     }
@@ -164,9 +166,10 @@ export default function Dashboard() {
       } else {
         throw new Error(data.error || "Gagal memperbarui status");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setDetailError(err.message || "Gagal memperbarui status");
+      const message = err instanceof Error ? err.message : "Gagal memperbarui status";
+      setDetailError(message);
     } finally {
       setStatusUpdating(false);
     }
