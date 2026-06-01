@@ -72,8 +72,7 @@ export async function POST(request: NextRequest) {
     if (delivery_address == null || undefined) {
       return NextResponse.json(
         {
-          error:
-            "Koordinat GPS (latitude dan longitude) wajib diisi untuk pengiriman kurir",
+          error: "Alamat wajib diisi untuk pengiriman kurir",
         },
         { status: 400 },
       );
