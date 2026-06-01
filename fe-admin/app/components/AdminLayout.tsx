@@ -63,11 +63,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   const navigationItems = [
-    { name: "Orders", href: "/", icon: ShoppingCart },
-    { name: "Stock", href: "/stock", icon: Package },
-    { name: "Delivery Methods", href: "/delivery-methods", icon: Truck },
-    { name: "Payment Methods", href: "/payment-methods", icon: CreditCard },
-    { name: "Customers", href: "/customers", icon: Users },
+    { name: "Pesanan", href: "/", icon: ShoppingCart },
+    { name: "Stok Barang", href: "/stock", icon: Package },
+    { name: "Pengiriman", href: "/delivery-methods", icon: Truck },
+    { name: "Metode Pembayaran", href: "/payment-methods", icon: CreditCard },
+    { name: "Pelanggan", href: "/customers", icon: Users },
   ];
 
   const isActive = (href: string) => {
@@ -96,7 +96,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <h1 className="text-2xl font-bold tracking-tight text-white">
             MarketDash
           </h1>
-          <p className="text-xs text-white/60 mt-0.5">Admin Dashboard</p>
+          <p className="text-xs text-white/60 mt-0.5">Dasbor Admin</p>
         </div>
 
         {/* Sidebar Navigation */}
@@ -131,7 +131,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           {/* Add New Product Button */}
           <button className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed-dim text-sm font-semibold rounded-md shadow-sm transition-all duration-150 active:scale-[0.98]">
             <Plus size={16} />
-            <span>Add New Product</span>
+            <span>Tambah Produk Baru</span>
           </button>
 
           {/* Settings and Logout */}
@@ -152,14 +152,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     : "text-white/75"
                 }
               />
-              Settings
+              Setelan
             </Link>
             <button
               onClick={handleLogout}
               className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded-md text-left transition-all duration-150"
             >
               <LogOut size={18} className="text-white/75" />
-              Logout
+              Keluar
             </button>
           </div>
         </div>
@@ -214,7 +214,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <div className="p-4 border-t border-white/10 space-y-3">
               <button className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed-dim text-sm font-semibold rounded-md shadow-sm transition-all duration-150">
                 <Plus size={16} />
-                <span>Add New Product</span>
+                <span>Tambah Produk Baru</span>
               </button>
 
               <div className="space-y-1">
